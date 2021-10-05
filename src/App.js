@@ -1,8 +1,8 @@
-
+import {Button} from 'antd-mobile'
 
 function App() {
     return (
-        <p>hudi</p>
+        <p>hudi<Button>按钮</Button></p>    
     );
 }
 
