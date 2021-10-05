@@ -1,35 +1,38 @@
 import React from "react";
 import { Carousel, Flex } from 'antd-mobile';
 import axios from "axios";
-
-navdata = [
+//导入导航栏图片
+import NAV1 from '../../assets/images/nav-1.png'
+import NAV2 from '../../assets/images/nav-2.png'
+import NAV3 from '../../assets/images/nav-3.png'
+import NAV4 from '../../assets/images/nav-4.png'
+import './index.css'
+const navdata = [
     {
         id:1,
-        src='',
-        path='',
-        title='整租'
+        img: NAV1 ,
+        path:'/home',
+        title:'整租'
     },
     {
         id:2,
-        src='',
-        path='',
-        title='合租'
+        img: NAV2,
+        path:'/home',
+        title:'合租'
     },
     {
         id:3,
-        src='',
-        path='',
-        title='地图找房'
+        img: NAV3,
+        path:'/home/citylist',
+        title:'地图找房'
     },
     {
         id:4,
-        src='',
-        path='',
-        title='资讯'
+        img: NAV4,
+        path:'/home/news',
+        title:'资讯'
     }
 ]
-
-
 
 export default class Index extends React.Component{
     state = {
@@ -68,7 +71,13 @@ export default class Index extends React.Component{
             ))
     }
     rendernav(){
-
+        console.log('22222')
+        return navdata.map(item=>{
+            <Flex.Item>
+                    <img src={item.img} alt=''/>
+                    <h2>item.title</h2>
+            </Flex.Item>
+        })
     }
     render() {
         return (
@@ -83,8 +92,21 @@ export default class Index extends React.Component{
             {this.renderswip()}
             </Carousel>
             <Flex className='nav'>
+                {/* {this.rendernav()} */}
                 <Flex.Item>
-                    <img src=''/>
+                    <img src={NAV1} alt=''/>
+                    <h2>整租</h2>
+                </Flex.Item>
+                <Flex.Item>
+                    <img src={NAV1} alt=''/>
+                    <h2>整租</h2>
+                </Flex.Item>
+                <Flex.Item>
+                    <img src={NAV1} alt=''/>
+                    <h2>整租</h2>
+                </Flex.Item>
+                <Flex.Item>
+                    <img src={NAV1} alt=''/>
                     <h2>整租</h2>
                 </Flex.Item>
             </Flex>

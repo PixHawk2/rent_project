@@ -22,3 +22,6 @@ html,body{
   /* touch-action: pan-y; */
   touch-action: none;
 }
+h2{
+  margin:0;
+}
