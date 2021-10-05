@@ -11,13 +11,13 @@ const navdata = [
     {
         id:1,
         img: NAV1 ,
-        path:'/home',
+        path:'/home/houselist',
         title:'整租'
     },
     {
         id:2,
         img: NAV2,
-        path:'/home',
+        path:'/home/houselist',
         title:'合租'
     },
     {
@@ -36,14 +36,16 @@ const navdata = [
 
 export default class Index extends React.Component{
     state = {
-        swipdata: []
+        swipdata: [],
+        swipdataloaded:false
         // imgHeight: 176,
     }
     async getswipdata(){
         const res = await axios.get('http://localhost:8080/home/swiper');
-        console.log(res.data.body);
+        // console.log(res.data.body);
         this.setState({
-            swipdata: res.data.body
+            swipdata: res.data.body,
+            swipdataloaded:true
         })   
     }
     componentDidMount() {
@@ -71,17 +73,19 @@ export default class Index extends React.Component{
             ))
     }
     rendernav(){
-        console.log('22222')
-        return navdata.map(item=>{
-            <Flex.Item>
+        
+        return navdata.map(item=>
+            <Flex.Item key={item.id} onClick={()=>this.props.history.push(item.path)}>
+                {/* Flex组件使用时必须添加key属性，否则不会显示 */}
                     <img src={item.img} alt=''/>
-                    <h2>item.title</h2>
+                    <h2>{item.title}</h2>
             </Flex.Item>
-        })
+        )
     }
     render() {
         return (
             <div className='index'>
+            {this.state.swipdataloaded?
             <Carousel
                 autoplay={true}
                 infinite
@@ -89,26 +93,10 @@ export default class Index extends React.Component{
             //   beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)} //面板切换前的回调
             //   afterChange={index => console.log('slide to', index)} //面板切换后的回调
             >
-            {this.renderswip()}
-            </Carousel>
+                {this.renderswip()}
+            </Carousel>:''}
             <Flex className='nav'>
-                {/* {this.rendernav()} */}
-                <Flex.Item>
-                    <img src={NAV1} alt=''/>
-                    <h2>整租</h2>
-                </Flex.Item>
-                <Flex.Item>
-                    <img src={NAV1} alt=''/>
-                    <h2>整租</h2>
-                </Flex.Item>
-                <Flex.Item>
-                    <img src={NAV1} alt=''/>
-                    <h2>整租</h2>
-                </Flex.Item>
-                <Flex.Item>
-                    <img src={NAV1} alt=''/>
-                    <h2>整租</h2>
-                </Flex.Item>
+                {this.rendernav()}
             </Flex>
             </div>
             );
