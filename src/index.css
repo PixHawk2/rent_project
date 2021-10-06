@@ -25,3 +25,11 @@ html,body{
 h2,h3,p{
   margin:0;
 }
+.App,
+#root{
+  height:100%;
+}  
+body{
+  margin:0px;
+  padding:0px
+}
