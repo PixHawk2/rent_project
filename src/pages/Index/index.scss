@@ -1,0 +1,181 @@
+// .nav img{
+//     width: 48px;
+// }
+// .nav h2{
+//     margin-top: 7px;
+//     font-size:13px;
+//     font-weight: normal;
+// }
+// .nav .am-flexbox-item{
+
+//     text-align: center;
+// }
+// .nav .swipper{
+//     height: 212px;
+// }
+// 使用scss进行调整
+.swipper{
+    height: 212px;
+    position: relative;
+    // 顶部导航
+    .search-box{
+        position:absolute;
+        top:25px;
+        width: 100%;
+        padding:0 10px;
+        
+        .search{
+            flex: 1;
+            height: 34px;
+            margin: 0 10px;
+            padding:5px 5px 5px 8px;
+            background-color: #fff;
+            border-radius:3px ;
+            .location{
+                // 右侧三角块样式
+                .icon-arrow{
+                    margin-left: 2px;
+                    font-size: 12px;
+                    color: #7f7f80;
+                }
+            }
+            // 输入框样式
+            .form{
+                border-left: 1px solid #e5e5e5;
+                margin-left:12px;
+                line-height: 16px;//调整竖线的长度
+                // 放大镜样式
+                .icon-seach{
+                    vertical-align: middle;
+                    padding:0 2px 0 5px;
+                    color:#9c9fa1;
+                    font-size: 15px;
+                }
+                // 输入框文字样式
+                .text{
+                    font-size: 13px;
+                    color:#9c9fa1;
+                    padding-left: 4px;
+                }
+            }
+        }
+        // 右侧地图图标样式
+        .icon-map{
+            font-size: 25px;
+            color:#fff;
+        }
+    }
+    
+
+}
+.nav{
+    padding: 10px 0;
+    h2{
+        margin-top: 7px;
+        font-size:13px;
+        font-weight: normal;
+    }
+    img{
+        width: 48px;
+    }
+    .am-flexbox-item{
+
+        text-align: center;
+    }
+   
+}
+.group{
+    background-color:  #f6f5f6;
+    padding: 0 10px;
+    overflow: hidden;
+    .group-title{
+        // font-weight: normal;
+        font-size: 15px;
+        position: relative;
+        margin: 15px 0px 15px 10px;
+        .group-more{
+            position:absolute;
+            font-size: 14px;
+            right: 0;
+            color: #787d82;
+            font-weight: normal;
+        }
+    }
+    .group-item{
+        height: 75px;
+        .left{
+            .title{
+                font-size: 13px;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .info{
+                font-size: 12px;
+                color:#999;
+            }
+        }
+        img{
+            width: 55px;
+        }
+    }
+    .am-grid .am-flexbox {
+        background-color: inherit;
+        .am-flexbox-item .am-grid-item-content{
+            padding:0;
+            padding-bottom: 5px;
+        }
+    }
+    .am-flexbox-align-stretch{
+        margin-bottom: 10px; 
+        .am-grid-item{
+            background-color: #fff;
+            &:first-child{
+                margin-right: 10px;
+            }
+        }
+        
+    } 
+}
+.news{
+    overflow: hidden;
+    padding: 10px;
+    background-color: #fff;
+    .news-title{
+        font-size: 15px;
+        padding:10px 0 5px 10px
+    }
+    .news-item{
+        height: 120px;
+        padding: 15px 10px 15px 0;
+        border-bottom: 1px solid #e5e5e5;
+        &:last-child{
+            border: 0;
+        }
+        .news-img{
+            height: 90px;
+            width: 120px;
+            float: left;  
+            img{
+                height: 90px;
+                width: 120px;
+            }
+        }
+        
+    }
+    
+    .content {
+        overflow: hidden;
+        height: 100%;
+        padding-left: 12px;
+    }
+    
+    .title{
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+    .info{
+        width: 100%;
+        color: #9c9fa1;
+        font-size: 12px;
+    }
+}

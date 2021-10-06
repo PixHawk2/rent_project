@@ -9,6 +9,11 @@ import './index.css'
 // import Item from 'antd-mobile/lib/popover/Item'
 
 // 将菜单栏的数据抽离出来
+
+
+// 导航菜单切换到指定路由后，对应图标没有高亮的原因：
+// 之前代码仅考虑吧home首次加载以及点击，对于home组件没有加载而导致的界面切换没有做处理？？？如何处理：
+// 1.在componentDidupdate钩子函数中判断本次路由和上次是否相同，不同，则执行setstate
 const tabbarinfor = [ 
     {
         title:"首页",
@@ -39,7 +44,16 @@ export default class Home extends React.Component{
         selectedTab: this.props.location.pathname//默认选中项目
         // hidden: false,
         // fullScreen: false,
-      }
+    }
+    componentDidUpdate(nextProps){
+        // console.log('上次路由信息',nextProps)
+        // console.log('本次路由信息',this.props)大小写不要写错聊
+        if(nextProps.location.pathname !== this.props.location.pathname){
+            this.setState({
+                selectedTab: this.props.location.pathname//默认选中项目
+            })
+        }
+    }
     renerTabbaritem(){
         return tabbarinfor.map(item=>(
             <TabBar.Item
