@@ -153,11 +153,11 @@ export default class Index extends React.Component{
         {/* 顶部搜索框实现 */}
             <Flex className='search-box'>
                 <Flex className='search'>
-                    <div className='location'>
+                    <div className='location' onClick={()=>{this.props.history.push('/citylist')}}>
                         <span className='name'>北京</span>
                         <i className='iconfont icon-arrow' />
                     </div>
-                    <div className="form">
+                    <div className="form" onClick={()=>{this.props.history.push('/search')}}>
                         <i className="iconfont icon-seach" />
                         <span className="text">请输入小区或地址</span>
                     </div>
