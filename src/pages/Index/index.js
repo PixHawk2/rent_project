@@ -7,6 +7,7 @@ import NAV2 from '../../assets/images/nav-2.png'
 import NAV3 from '../../assets/images/nav-3.png'
 import NAV4 from '../../assets/images/nav-4.png'
 import './index.css'
+import {getCurrentLocation} from '../../utils'
 // 导航菜单切换到指定路由后，对应图标没有高亮的原因：
 // 之前代码仅考虑吧home首次加载以及点击，对于home组件没有加载而导致的界面切换没有做处理
 const navdata = [
@@ -35,13 +36,20 @@ const navdata = [
         title:'资讯'
     }
 ]
+// 使用H5的定位接口
+// navigator.geolocation.getCurrentPosition(position=>{
+//     console.log('location information:',position)
+// })
+
+
 
 export default class Index extends React.Component{
     state = {
         swipdata: [],
         swipdataloaded:false,
         groupdata:[],
-        news:[]
+        news:[],
+        localcity:''
         // imgHeight: 176,
     }
     // 获取导航栏数据
@@ -78,12 +86,26 @@ export default class Index extends React.Component{
         })
 
     }
-
-    componentDidMount() {
-   
+    // getCurrentCity(){
+    //     const myCity = new window.BMap.LocalCity();
+    //     myCity.get(async res=>{
+    //         // console.log('local city infor',res)
+    //         const result = await axios.get(`http://localhost:8080/area/info?name=${res.name}`)
+    //         // console.log('+++++',result)
+    //         this.setState({
+    //             localcity:result.data.body.label
+    //         })
+    //     })
+    // }
+    async componentDidMount() {
         this.getswipdata();
         this.getGroupdata();
         this.getNewsdata();
+        // this.getCurrentCity();将获取当前定位的函数封装   在utils目录下
+        const localCity = await getCurrentLocation();
+        this.setState({
+            localcity:localCity.label
+        })
     }
     renderswip(){
         return this.state.swipdata.map(val => (
@@ -154,7 +176,7 @@ export default class Index extends React.Component{
             <Flex className='search-box'>
                 <Flex className='search'>
                     <div className='location' onClick={()=>{this.props.history.push('/citylist')}}>
-                        <span className='name'>北京</span>
+                        <span className='name'>{this.state.localcity}</span>
                         <i className='iconfont icon-arrow' />
                     </div>
                     <div className="form" onClick={()=>{this.props.history.push('/search')}}>
