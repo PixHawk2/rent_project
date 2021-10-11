@@ -2,8 +2,8 @@ import {NavBar} from 'antd-mobile'
 import {withRouter} from 'react-router-dom'
 import react from 'react'
 import './index.scss'
-
- function NavHeader({children,history,onLeftClick}){
+import PropTypes  from 'prop-types'
+function NavHeader({children,history,onLeftClick}){
     const defaultClickHander = () => history.push('/home')
     return(
     <NavBar
@@ -13,6 +13,10 @@ import './index.scss'
         onLeftClick={onLeftClick||defaultClickHander}
     >{children}
     </NavBar>)
+}
+NavHeader.propTypes = {
+    children:PropTypes.string.isRequired,
+    onLeftClick:PropTypes.func
 }
 // 高阶组件返回的也是组件
 export default withRouter(NavHeader)

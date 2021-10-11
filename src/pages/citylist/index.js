@@ -4,6 +4,7 @@ import './index.scss'
 import axios from "axios"
 import {getCurrentLocation} from '../../utils'
 import {List,AutoSizer} from 'react-virtualized'
+import NavHeader from "../../components/NavHeader"
   
 // 两个常量分别用来记录标题和内容的高度，用于动态计算每行的高度
 const title_height = 40;
@@ -174,12 +175,13 @@ export default class Citylist extends React.Component{
     render(){
         return(
             <div className='citylist'>
-                <NavBar
+                {/* <NavBar
                     mode="light"
                     icon={<i className='iconfont icon-back' />}
                     onLeftClick={() => this.props.history.push('/home')}
                 >城市列表
-                </NavBar>
+                </NavBar> */}
+                <NavHeader>城市列表</NavHeader>
                 <AutoSizer>
                     {({height, width}) => (
                          <List
