@@ -1,11 +1,11 @@
 .citylist {
   height: 100%;
-  padding-top: 50px;
+  padding-top: 45px;
 }
 
 .citylist .am-navbar-light {
   background-color: #f6f5f6;
-  margin-top: -50px;
+  margin-top: -45px;
 }
 
 .citylist .icon-back {
