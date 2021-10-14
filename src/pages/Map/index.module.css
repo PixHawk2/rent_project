@@ -37,13 +37,17 @@
     border-top-width: 4px;
     border-top-color: #00a75b;
   }
+
+
+/* 房屋数据渲染 tommorrow*/
+
   .housename{
     display: inline-block;
     width: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    vertical-align: middleS;
+    vertical-align: middle;
   }
   .housenum{
     display: inline-block;
