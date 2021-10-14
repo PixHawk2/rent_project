@@ -195,21 +195,9 @@ export default class Map extends React.Component{
             Toast.hide()
         }
     }
-    // {[styles.houseList,this.setState.listShow?styles.show:''].join(' ')}可以根据this.state.listShow决定数据是否展示
-    render(){
-        return(
-            <div className='map'>
-                <NavHeader className='NavHeader' >地图找房</NavHeader>
-                <div id='container'></div>
-                <div className={[styles.houseList,this.state.listShow ? styles.show :''].join(' ')}>
-                   {/* 标题实现 */}
-                   <div className={styles.titleWrap}>
-                        <h1 className={styles.listTitle}>房屋列表</h1>
-                        <Link className={styles.titleMore} to='/home/list'>更多房源</Link>
-                   </div>
-                   {/* 标题结束 */}
-                {/* 房源数据渲染 */}
-                    <div className={styles.houseItems}>
+    renderhouseinfo(){
+        return (
+            <div className={styles.houseItems}>
                         {/* 遍历获取到的房源数据进行渲染 */}
                         {this.state.houseinfolist.map(item => (
                             <div className={styles.house} key={item.houseCode}>
@@ -224,9 +212,12 @@ export default class Map extends React.Component{
                                     <div className={styles.desc}>{item.desc}</div>
                                     {/* tag渲染 */}
                                     <div>
-                                        {item.tags.map((element,index)=>(
-                                            <span className={[styles.tag,styles.tag1].join(' ')} key={element}>{element}</span>
-                                        ))}
+                                        {item.tags.map((element,index)=>{
+                                            // 标签样式修改
+                                            const tagclass = 'tag'+(index+1)
+                                            return (<span className={[styles.tag,styles.[tagclass]].join(' ')} key={element}>{element}</span>)
+                                        }
+                                        )}
                                     </div>
                                      {/* price渲染 */}
                                     <div className={styles.price}>
@@ -236,6 +227,23 @@ export default class Map extends React.Component{
                             </div>
                         ))}
                     </div>
+        )
+    }
+    // {[styles.houseList,this.setState.listShow?styles.show:''].join(' ')}可以根据this.state.listShow决定数据是否展示
+    render(){
+        return(
+            <div className='map'>
+                <NavHeader className='NavHeader' >地图找房</NavHeader>
+                <div id='container'></div>
+                <div className={[styles.houseList,this.state.listShow ? styles.show :''].join(' ')}>
+                   {/* 标题实现 */}
+                   <div className={styles.titleWrap}>
+                        <h1 className={styles.listTitle}>房屋列表</h1>
+                        <Link className={styles.titleMore} to='/home/list'>更多房源</Link>
+                   </div>
+                   {/* 标题结束 */}
+                {/* 房源数据渲染 */}
+                    {this.renderhouseinfo()}
                 {/* 房源数据结束 */}
                 </div>
             </div>
