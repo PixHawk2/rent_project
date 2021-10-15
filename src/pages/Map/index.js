@@ -6,6 +6,7 @@ import NavHeader from '../../components/NavHeader'
 import { position, style } from "dom-helpers";
 import {Toast} from 'antd-mobile'
 import {Link} from 'react-router-dom'
+import {BASE_URL} from '../../utils/url'
 
 
 const BMap = window.BMap
@@ -203,7 +204,7 @@ export default class Map extends React.Component{
                             <div className={styles.house} key={item.houseCode}>
                                 {/* 左侧图片渲染start */}
                                 <div className={styles.imgWrap}>
-                                    <img className={styles.img} src={`http://localhost:8080${item.houseImg}`} alt=''/>
+                                    <img className={styles.img} src={BASE_URL + item.houseImg} alt=''/>
                                 </div>
                                 {/* 左侧图片渲染 end*/}
                                 {/* 右侧具体数据渲染 start*/}
@@ -215,7 +216,7 @@ export default class Map extends React.Component{
                                         {item.tags.map((element,index)=>{
                                             // 标签样式修改
                                             const tagclass = 'tag'+(index+1)
-                                            return (<span className={[styles.tag,styles.[tagclass]].join(' ')} key={element}>{element}</span>)
+                                            return (<span className={[styles.tag,styles[tagclass]].join(' ')} key={element}>{element}</span>)
                                         }
                                         )}
                                     </div>

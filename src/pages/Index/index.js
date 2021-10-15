@@ -8,6 +8,7 @@ import NAV3 from '../../assets/images/nav-3.png'
 import NAV4 from '../../assets/images/nav-4.png'
 import './index.css'
 import {getCurrentLocation} from '../../utils'
+import { BASE_URL } from "../../utils/url"
 // 导航菜单切换到指定路由后，对应图标没有高亮的原因：
 // 之前代码仅考虑吧home首次加载以及点击，对于home组件没有加载而导致的界面切换没有做处理
 const navdata = [
@@ -207,7 +208,7 @@ export default class Index extends React.Component{
                             <p className='title'>{item.title}</p>
                             <span className='info'>{item.desc}</span>
                         </div>
-                        <img src={`http://localhost:8080${item.imgSrc}`}
+                        <img src={BASE_URL+item.imgSrc}
                         alt=''/>
                     </Flex>
                 )}
