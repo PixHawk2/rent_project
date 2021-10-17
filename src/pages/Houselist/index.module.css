@@ -1,0 +1,24 @@
+/* 外部容器的样式 */
+.header{
+    background-color: #f6f5f6;
+    padding: 0 10px;
+    height: 45px;
+}
+/* 返回按键样式 */
+.header :global(.icon-back){
+    font-size:16px;
+    color: #999;
+}
+/* 右侧地图图标样式 */
+.header :global(.icon-map){
+    color: #00ae66;
+}
+.header :global(.search){
+    height: 30px;
+}
+/* 搜索框的样式 */
+.searchHeader{
+    position: relative;
+    top: 0;
+    padding: 0;
+}

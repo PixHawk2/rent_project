@@ -9,6 +9,7 @@ import NAV4 from '../../assets/images/nav-4.png'
 import './index.css'
 import {getCurrentLocation} from '../../utils'
 import { BASE_URL } from "../../utils/url"
+import SearchHeader from "../../components/SearchHeader";
 // 导航菜单切换到指定路由后，对应图标没有高亮的原因：
 // 之前代码仅考虑吧home首次加载以及点击，对于home组件没有加载而导致的界面切换没有做处理
 const navdata = [
@@ -174,7 +175,7 @@ export default class Index extends React.Component{
                         {this.renderswip()}
                     </Carousel>:''}   
         {/* 顶部搜索框实现 */}
-            <Flex className='search-box'>
+            {/* <Flex className='search-box'>
                 <Flex className='search'>
                     <div className='location' onClick={()=>{this.props.history.push('/citylist')}}>
                         <span className='name'>{this.state.localcity}</span>
@@ -186,10 +187,12 @@ export default class Index extends React.Component{
                     </div>
                 </Flex>
             {/* 右侧地图图标 */}
-                 <i className='iconfont icon-map'
+                 {/* <i className='iconfont icon-map'
                     onClick={()=>{this.props.history.push('/map')}}
             />
-            </Flex> 
+            </Flex>   */}
+            {/* 通过组件封装代替,但是实际的步骤仍然是先实现功能再考虑封装 */}
+            <SearchHeader cityName={this.state.localcity}></SearchHeader>
             </div>
                 {/* 导航菜单 */}
                 <Flex className='nav'>

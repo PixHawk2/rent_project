@@ -8,9 +8,9 @@ import PropTypes  from 'prop-types'
 import './search.scss'
 
 
-function Searchheader({history,cityName}){
+function Searchheader({history,cityName,className}){
     return(
-        <Flex className='search-box'>
+        <Flex className={["search-box",className ||''].join(' ')}>
                 <Flex className='search'>
                     <div className='location' onClick={()=>{history.push('/citylist')}}>
                         <span className='name'>{cityName}</span>
@@ -29,6 +29,7 @@ function Searchheader({history,cityName}){
     )
 }
 Searchheader.propTypes = {
-    cityName:PropTypes.string.isRequired
+    cityName:PropTypes.string.isRequired,
+    className:PropTypes.string
 }
 export default withRouter(Searchheader)
