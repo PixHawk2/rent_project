@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
 import './index.scss'
 import styles from './index.module.css'
 import NavHeader from '../../components/NavHeader'
@@ -7,6 +7,7 @@ import { position, style } from "dom-helpers";
 import {Toast} from 'antd-mobile'
 import {Link} from 'react-router-dom'
 import {BASE_URL} from '../../utils/url'
+import { API } from "../../utils/api";
 
 
 const BMap = window.BMap
@@ -73,7 +74,7 @@ export default class Map extends React.Component{
     async renderOverlays(areaid) {
         try {
             Toast.loading('Data Loading',0,null,false)
-            const res = await axios.get(`http://localhost:8080/area/map?id=${areaid}`)
+            const res = await API.get(`/area/map?id=${areaid}`)
             Toast.hide()
             console.log('renderOverlays当前的数据为：',res)
             const data = res.data.body
@@ -184,7 +185,7 @@ export default class Map extends React.Component{
     async getHouseInfo(areaid){
         try {
             Toast.loading('数据加载中',0,null,true)
-            const res = await axios.get(`http://localhost:8080/houses?cityId=${areaid}`)
+            const res = await API.get(`/houses?cityId=${areaid}`)
             const housedata = res.data.body.list
             this.setState({
                 houseinfolist:housedata,

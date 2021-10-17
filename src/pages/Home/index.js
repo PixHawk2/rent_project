@@ -1,11 +1,13 @@
 import React from 'react'
 import { Route } from 'react-router'
+// 为了防止后续影响Houselist中的样式
+import './index.css'
 import News from '../News'
 import Houselist from '../Houselist'
 import Index from '../Index'
 import Profile from '../Profile'
 import {TabBar} from 'antd-mobile'
-import './index.css'
+
 // import Item from 'antd-mobile/lib/popover/Item'
 
 // 将菜单栏的数据抽离出来

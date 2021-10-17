@@ -116,7 +116,7 @@ export default class Index extends React.Component{
                 style={{ display: 'inline-block', width: '100%', height: 212 }}
             >
                 <img
-                src={`http://localhost:8080${val.imgSrc}`}
+                src={BASE_URL+val.imgSrc}
                 alt=""
                 style={{ width: '100%', verticalAlign: 'top' }}
                 // onLoad={() => {
