@@ -22,7 +22,7 @@ html,body{
   /* touch-action: pan-y; */
   touch-action: none;
 }
-h2,h3,p,ul,h1{
+h2,h3,p,ul,h1,dd{
   margin:0;
 }
 ul{
