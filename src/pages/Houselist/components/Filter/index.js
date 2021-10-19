@@ -38,6 +38,7 @@ export default class Filter extends React.Component{
         }
         let data = []
         let cols = 3
+        let type = openType
         switch(openType){
             case('area'):
                 data = [area,subway]
@@ -54,7 +55,7 @@ export default class Filter extends React.Component{
             default:
                 break;
         }
-        return  <FilterPicker onCancel={this.onCancel} onSave={this.onSave} data={data} cols={cols}/>
+        return  <FilterPicker onCancel={this.onCancel} onSave={this.onSave} data={data} cols={cols} type={openType}/>
     }
     onTitleClick = type =>{
         this.setState(prevState =>{
@@ -73,7 +74,8 @@ export default class Filter extends React.Component{
         })
     }
 
-    onSave = () =>{
+    onSave = (value,type) =>{
+
         this.setState({
             openType:''
         })
