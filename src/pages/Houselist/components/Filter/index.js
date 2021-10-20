@@ -11,11 +11,18 @@ const titleSelectedStatus = {
     price:false,
     more:false
 }
+const selectedValue ={
+    area:['area','null'],
+    mode:['null'],
+    price:['null'],
+    more:[]
+}
 export default class Filter extends React.Component{
     state = {
         titleSelectedStatus,
         openType:'',
-        filtersData:{}
+        filtersData:{},
+        selectedValue
     }
     componentDidMount(){
         this.getFilterData()
@@ -32,13 +39,14 @@ export default class Filter extends React.Component{
     // 封装FilterPicker组件渲染
     /**/
     renderFilterPicker(){
-        const {openType,filtersData:{area,subway,rentType,price}} = this.state
+        const {openType,filtersData:{area,subway,rentType,price},selectedValue} = this.state
         if(openType !== 'area'&& openType !== 'mode' && openType !=='price'){
             return null
         }
         let data = []
         let cols = 3
-        let type = openType
+        // let type = openType
+        let defaultValue = selectedValue[openType]
         switch(openType){
             case('area'):
                 data = [area,subway]
@@ -55,18 +63,69 @@ export default class Filter extends React.Component{
             default:
                 break;
         }
-        return  <FilterPicker onCancel={this.onCancel} onSave={this.onSave} data={data} cols={cols} type={openType}/>
+        return  <FilterPicker
+        key={openType} 
+        onCancel={this.onCancel} 
+        onSave={this.onSave} 
+        data={data} 
+        cols={cols} 
+        type={openType}
+        defaultValue={defaultValue}
+        />
     }
+    // 封装FilterMore渲染
+    renderFilterMore(){
+        const {openType,filtersData:{roomType,oriented,floor,characteristic}} = this.state
+        if( openType !== 'more'){
+            return null
+        }
+        let data = {
+            roomType,oriented,floor,characteristic
+        }
+        return <FilterMore data={data} />
+    }
+    // 点击标题栏设置当前高亮
     onTitleClick = type =>{
-        this.setState(prevState =>{
-            return {
-                titleSelectedStatus:{
-                    ...prevState.titleSelectedStatus,
-                    [type]:true
-                },
-                openType:type
+        const {titleSelectedStatus,selectedValue} = this.state
+        const newTitleSeleectedStatus = {...titleSelectedStatus}
+        
+        Object.keys(titleSelectedStatus).forEach(item=>{
+            if(item === type){
+                newTitleSeleectedStatus[item] = true
+                return
             }
+            const selectVal = selectedValue[item]
+            if(item ==='area' && (selectVal.length !==2 || selectVal[0] !=='area')){
+                newTitleSeleectedStatus[item] = true
+            }
+            else if(item ==='mode' && selectVal[0] !=='null'){
+                newTitleSeleectedStatus[item] = true
+            }
+            else if( item ==='price' && selectVal[0] !=='null'){
+                newTitleSeleectedStatus[item] = true
+            }
+            else if(item ==='more'){
+                // null
+            }
+            else{
+                newTitleSeleectedStatus[item] = false
+            }
+            
         })
+        this.setState({
+            openType:type,
+            titleSelectedStatus:newTitleSeleectedStatus
+        })
+        // 下面为旧代码
+        // this.setState(prevState =>{
+        //     return {
+        //         titleSelectedStatus:{
+        //             ...prevState.titleSelectedStatus,
+        //             [type]:true
+        //         },
+        //         openType:type
+        //     }
+        // })
     }
     onCancel = () => {
         this.setState({
@@ -77,7 +136,8 @@ export default class Filter extends React.Component{
     onSave = (value,type) =>{
 
         this.setState({
-            openType:''
+            openType:'',
+            selectedValue:{...this.state.selectedValue,[type]:value}
         })
     }
     render(){
@@ -98,7 +158,7 @@ export default class Filter extends React.Component{
                    this.renderFilterPicker()
                 }
                     
-                    {/* <FilterMore /> */}
+                {this.renderFilterMore()}
                 </div>
             </div>
         )

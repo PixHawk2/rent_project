@@ -86,7 +86,7 @@ import FilterFooter from "../../../../components/FilterFooter";
 // <></>是<React.Fragment>的语法糖，用于返回多个标签
 export default class FilterPicker extends React.Component{
     state = {
-        value:''
+        value:this.props.defaultValue
     }
     render(){
         const {onCancel,onSave,data,cols,type} = this.props
