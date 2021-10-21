@@ -75,14 +75,16 @@ export default class Filter extends React.Component{
     }
     // 封装FilterMore渲染
     renderFilterMore(){
-        const {openType,filtersData:{roomType,oriented,floor,characteristic}} = this.state
+        const {openType,filtersData:{roomType,oriented,floor,characteristic},selectedValue} = this.state
         if( openType !== 'more'){
             return null
         }
         let data = {
             roomType,oriented,floor,characteristic
         }
-        return <FilterMore data={data} />
+        let defaultValue = selectedValue['more']
+        console.log('+*+*+*',defaultValue)
+        return <FilterMore data={data} type={openType} onSave={this.onSave} defaultValue={defaultValue} onCancel={this.onCancel}/>
     }
     // 点击标题栏设置当前高亮
     onTitleClick = type =>{
@@ -104,8 +106,9 @@ export default class Filter extends React.Component{
             else if( item ==='price' && selectVal[0] !=='null'){
                 newTitleSeleectedStatus[item] = true
             }
-            else if(item ==='more'){
+            else if(item ==='more'&&selectVal.length !==0){
                 // null
+                newTitleSeleectedStatus[item] = true
             }
             else{
                 newTitleSeleectedStatus[item] = false
@@ -127,16 +130,57 @@ export default class Filter extends React.Component{
         //     }
         // })
     }
-    onCancel = () => {
+    onCancel = (type) => {
+        console.log('*******',type)
+        const {titleSelectedStatus,selectedValue} = this.state
+        const newTitleSeleectedStatus = {...titleSelectedStatus}
+        const selectVal = selectedValue[type]
+        if(type ==='area' && (selectVal.length !==2 || selectVal[0] !=='area')){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type==='mode' && selectVal[0] !=='null'){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type ==='price' && selectVal[0] !=='null'){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type ==='more'&&selectVal.length !==0){
+            // null
+            newTitleSeleectedStatus[type] = true
+        }
+        else{
+            newTitleSeleectedStatus[type] = false
+        }
         this.setState({
-            openType:''
+            openType:'',
+            titleSelectedStatus:newTitleSeleectedStatus
         })
     }
 
     onSave = (value,type) =>{
-
+        console.log(value,type)
+        const {titleSelectedStatus} = this.state
+        const newTitleSeleectedStatus = {...titleSelectedStatus}
+        const selectVal = value
+        if(type ==='area' && (selectVal.length !==2 || selectVal[0] !=='area')){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type==='mode' && selectVal[0] !=='null'){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type ==='price' && selectVal[0] !=='null'){
+            newTitleSeleectedStatus[type] = true
+        }
+        else if(type ==='more'&&selectVal.length !==0){
+            // null
+            newTitleSeleectedStatus[type] = true
+        }
+        else{
+            newTitleSeleectedStatus[type] = false
+        }
         this.setState({
             openType:'',
+            titleSelectedStatus:newTitleSeleectedStatus,
             selectedValue:{...this.state.selectedValue,[type]:value}
         })
     }
@@ -147,7 +191,7 @@ export default class Filter extends React.Component{
                 {/* 前三个菜单的遮罩层，如果点击前三个标签，显示FilterPicker组件以及遮罩层,练习时因为少了一个top:0导致遮罩层无法显示！！！ */}
                 {
                     openType === 'area' || openType === 'mode' || openType === 'price' ? (
-                    <div className={styles.mask} onClick={this.onCancel} />
+                    <div className={styles.mask} onClick={()=>this.onCancel(openType)} />
                     ) : null
                 }
                 <div className={styles.content}>
