@@ -178,10 +178,26 @@ export default class Filter extends React.Component{
         else{
             newTitleSeleectedStatus[type] = false
         }
+        const newSelectValues = {...this.state.selectedValue,[type]:value}
+        // console.log('最新的筛选数据',newSelectValues)
+        const {area,mode,price,more} = newSelectValues
+        const filters = {}
+        let areaKey = area[0]
+        let areaValue = 'null'
+        if(area.length ===3){
+            areaValue = area[2] !=='null'?area[2]:area[1]
+        }
+        filters[areaKey] = areaValue
+        filters.mode = mode[0]
+        filters.price = price[0]
+        filters.more = more.join(',')
+        console.log('filters数据',filters)
+        const {onFilter} = this.props
+        onFilter(filters)
         this.setState({
             openType:'',
             titleSelectedStatus:newTitleSeleectedStatus,
-            selectedValue:{...this.state.selectedValue,[type]:value}
+            selectedValue:newSelectValues
         })
     }
     render(){

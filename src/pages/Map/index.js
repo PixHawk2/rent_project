@@ -8,6 +8,7 @@ import {Toast} from 'antd-mobile'
 import {Link} from 'react-router-dom'
 import {BASE_URL} from '../../utils/url'
 import { API } from "../../utils/api";
+import HouseItem from "../../components/HouseItem";
 
 
 const BMap = window.BMap
@@ -200,19 +201,34 @@ export default class Map extends React.Component{
     renderhouseinfo(){
         return (
             <div className={styles.houseItems}>
-                        {/* 遍历获取到的房源数据进行渲染 */}
-                        {this.state.houseinfolist.map(item => (
+                {/* 使用封装的HouseItem组件来渲染 */}
+                {this.state.houseinfolist.map(element=>(
+                    <HouseItem 
+                        src={BASE_URL + element.houseImg}
+                        title={element.title}
+                        desc={element.desc}
+                        price={element.price}
+                        tags={element.tags}
+                        key={element.houseCode}
+                        >
+                    </HouseItem>))}
+            </div>)
+        /*原先的实现方法
+        return (
+            <div className={styles.houseItems}>
+            遍历获取到的房源数据进行渲染
+            {this.state.houseinfolist.map(item => (
                             <div className={styles.house} key={item.houseCode}>
-                                {/* 左侧图片渲染start */}
+                                左侧图片渲染start 
                                 <div className={styles.imgWrap}>
                                     <img className={styles.img} src={BASE_URL + item.houseImg} alt=''/>
                                 </div>
-                                {/* 左侧图片渲染 end*/}
-                                {/* 右侧具体数据渲染 start*/}
+                                左侧图片渲染 end
+                                右侧具体数据渲染 start
                                 <div className={styles.content}>
                                     <h3 className={styles.title}>{item.title}</h3>
                                     <div className={styles.desc}>{item.desc}</div>
-                                    {/* tag渲染 */}
+                                    tag渲染
                                     <div>
                                         {item.tags.map((element,index)=>{
                                             // 标签样式修改
@@ -221,19 +237,20 @@ export default class Map extends React.Component{
                                         }
                                         )}
                                     </div>
-                                     {/* price渲染 */}
+                                 price渲染 
                                     <div className={styles.price}>
                                         <span className={styles.priceNum}>{item.price}</span>元/月
                                     </div>
                                 </div>
                             </div>
                         ))}
-                    </div>
+            </div>
         )
+        */
     }
     // {[styles.houseList,this.setState.listShow?styles.show:''].join(' ')}可以根据this.state.listShow决定数据是否展示
     render(){
-        return(
+        return (
             <div className='map'>
                 <NavHeader className='NavHeader' >地图找房</NavHeader>
                 <div id='container'></div>
