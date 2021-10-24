@@ -25,6 +25,7 @@ export default class Filter extends React.Component{
         selectedValue
     }
     componentDidMount(){
+        this.htmlBody = document.body
         this.getFilterData()
     }
     // 获取筛选条件对应的房源数据的函数
@@ -88,6 +89,7 @@ export default class Filter extends React.Component{
     }
     // 点击标题栏设置当前高亮
     onTitleClick = type =>{
+        this.htmlBody.className = 'body-fixed'
         const {titleSelectedStatus,selectedValue} = this.state
         const newTitleSeleectedStatus = {...titleSelectedStatus}
         
@@ -132,6 +134,7 @@ export default class Filter extends React.Component{
     }
     onCancel = (type) => {
         console.log('*******',type)
+        this.htmlBody.className = ''
         const {titleSelectedStatus,selectedValue} = this.state
         const newTitleSeleectedStatus = {...titleSelectedStatus}
         const selectVal = selectedValue[type]
@@ -158,6 +161,7 @@ export default class Filter extends React.Component{
     }
 
     onSave = (value,type) =>{
+        this.htmlBody.className = ''
         console.log(value,type)
         const {titleSelectedStatus} = this.state
         const newTitleSeleectedStatus = {...titleSelectedStatus}

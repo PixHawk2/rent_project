@@ -36,3 +36,6 @@ body{
   margin:0px;
   padding:0px
 }
+.body-fixed{
+  overflow: hidden;
+}
