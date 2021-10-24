@@ -4,6 +4,7 @@ import FilterPicker from "../FilterPicker";
 import FilterMore from "../FilterMore";
 import { API } from "../../../../utils/api";
 import styles from './index.module.css'
+import { Spring , animated } from 'react-spring'
 
 const titleSelectedStatus = {
     area:false,
@@ -204,15 +205,34 @@ export default class Filter extends React.Component{
             selectedValue:newSelectValues
         })
     }
+    // 抽离遮罩层渲染函数
+    renderMask(){
+        const {openType} = this.state
+        const isHide = (openType ==='more'||openType ==='')
+        return (
+            <Spring from={{opacity:0}} to={{opacity: isHide ? 0 : 1}}>
+            { props =>{
+                if(isHide){
+                    console.log('?????',props)
+                    // 当不显示遮罩层时返回null.避免遮罩层存在但是透明度为0影响页面其他功能
+                    return null
+                }
+                console.log('-------',props)
+                return (
+                    <animated.div style={props} className={styles.mask} onClick={()=>this.onCancel(openType)}></animated.div>
+                )
+            }}
+        </Spring>
+        )
+    }
+
     render(){
-        const {titleSelectedStatus,openType} = this.state
+        const {titleSelectedStatus} = this.state
         return(
             <div className={styles.root}>
                 {/* 前三个菜单的遮罩层，如果点击前三个标签，显示FilterPicker组件以及遮罩层,练习时因为少了一个top:0导致遮罩层无法显示！！！ */}
                 {
-                    openType === 'area' || openType === 'mode' || openType === 'price' ? (
-                    <div className={styles.mask} onClick={()=>this.onCancel(openType)} />
-                    ) : null
+                    this.renderMask()
                 }
                 <div className={styles.content}>
                 <FilterTitle titleSelectedStatus={titleSelectedStatus}
