@@ -1,7 +1,7 @@
 import React from "react";
 
-import {Flex} from 'antd-mobile'
-import { List } from "react-virtualized";
+import {Flex,Toast} from 'antd-mobile'
+import { List,AutoSizer,WindowScroller,InfiniteLoader } from "react-virtualized";
 
 // 基础链接地址导入
 import { API } from "../../utils/api";
@@ -53,6 +53,14 @@ export default class Houselist extends React.Component{
         // 获取到的房屋数据在state中
         const {list} = this.state
         const houselist = list[index]
+        if(!houselist){
+            // return Toast.loading('数据加载中',0,null,true)
+            return (
+                <div key={key} style={style}>
+                    <p className={styles.loading}/>
+                </div>
+            )
+        }
         return (
             <HouseItem
                 key={key}
@@ -65,7 +73,35 @@ export default class Houselist extends React.Component{
             ></HouseItem>
         )
     }
+    isRowLoaded = ({index})=>{
+        return !!this.state.list[index];
+    }
+    // loadMoreRows方法的返回是个promise对象
+    loadMoreRows = ({ startIndex, stopIndex }) =>{
+        console.log('+*+*+*+*',startIndex,stopIndex)
+        return new Promise(resolve =>{
+            API.get(BASE_URL + '/houses',{
+                params:{
+                    id:value,
+                    ...this.filterData,
+                    start:startIndex,
+                    end:stopIndex
+                }
+            }).then(res =>{
+                console.log(res)
+                // Toast.hide()
+                this.setState({
+                    list:[...this.state.list,...res.data.body.list]
+                })
+                resolve()
+            })
+            
+        })
+    }
+
+    //需要多练习高阶组件的使用
     render(){
+        const {count} = this.state
         return(
             <div>
                 {/* 搜索导航实现 */}
@@ -77,14 +113,39 @@ export default class Houselist extends React.Component{
                 <Filter onFilter={this.onFilter}/>
                 {/* 房屋列表渲染 */}
                 <div className={styles.houseListItem}>
-                    <List
-                         
-                         width={300}
-                         height={300}
-                         rowCount={this.state.count}
-                         rowHeight={120}//固定高度120px
-                         rowRenderer={this.houseListItemRenderer}
-                     />
+                    <InfiniteLoader 
+                            isRowLoaded={this.isRowLoaded}
+                            loadMoreRows={this.loadMoreRows}
+                            rowCount={count}
+                    >
+                        {({onRowsRendered, registerChild})=>(
+                            <WindowScroller>
+                            {({height,isScrolling,scrollTop})=>
+                                (
+                                    <AutoSizer>
+                                        {({width})=>
+                                            (
+                                                <List
+                                                    onRowsRendered={onRowsRendered}
+                                                    ref={registerChild}
+                                                    autoHeight
+                                                    width={width}
+                                                    height={height}
+                                                    rowCount={count}
+                                                    rowHeight={120}//固定高度120px
+                                                    rowRenderer={this.houseListItemRenderer}
+                                                    isScrolling={isScrolling}
+                                                    scrollTop={scrollTop}
+                                                />
+                                            )
+                                        }
+                                    </AutoSizer>
+                                )
+                            }
+                            </WindowScroller>
+                        )}
+                    </InfiniteLoader>
+                    
                 </div>
             </div>
         )

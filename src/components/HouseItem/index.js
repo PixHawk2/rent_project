@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 // 封装房屋列表数据
-function HouseItem({src,title,desc,tags,price,onClick}){
+function HouseItem({src,title,desc,tags,price,onClick,style}){
     return (
-        <div className={styles.house} onClick={onClick}>
+        <div className={styles.house} onClick={onClick} style={style}>
         {/* 左侧图片渲染start */}
         <div className={styles.imgWrap}>
             <img className={styles.img} src={src} alt=''/>

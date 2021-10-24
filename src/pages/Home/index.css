@@ -1,3 +1,6 @@
+.home{
+    padding-bottom: 50px;
+}
 .home .iconfont{
     font-size: 20px;
 }
@@ -5,6 +8,10 @@
     position: fixed;
     bottom: 0;
 }
-.home{
-    padding-bottom: 50px;
+.home .am-tab-bar {
+    height: 50px;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
