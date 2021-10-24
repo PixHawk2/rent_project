@@ -79,11 +79,11 @@ export default class FilterMore extends React.Component{
                         )
                     }}
                 </Spring>
-                <Spring  from={{opacity:0}} to={{opacity:isShow?1:0}}>
+                <Spring  to={{ transform: `translate(${isShow ? '0px' : '100%'}, 0px)` }}>
                     { props =>{
                         return (
-                            <animated.div>
-                                <div className={styles.tags}>
+                            <>
+                                <animated.div style={props} className={styles.tags}>
                                     <dl className={styles.dl}>
                                         <dt className={styles.dt}>户型</dt>
                                         <dd className={styles.dd}>{this.renderFilters(roomType)}</dd>
@@ -98,10 +98,10 @@ export default class FilterMore extends React.Component{
                                         <dd className={styles.dd}>{this.renderFilters(characteristic)}</dd>
 
                                     </dl>
-                                 </div>
+                                 </animated.div>
                                 {/* 底部按钮样式，并传入样式类,练习时底部按钮不显示是因为代码错误，需要调整bottom的值 */}
-                                <FilterFooter className={styles.footer} cancelText='清除' onCancel={this.onClear} onOk={this.onConfirm}/>
-                            </animated.div>
+                                <FilterFooter  className={styles.footer} cancelText='清除' onCancel={this.onClear} onOk={this.onConfirm}/>
+                            </>
                         )
                     }}
                 </Spring>
