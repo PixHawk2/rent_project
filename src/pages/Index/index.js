@@ -65,9 +65,12 @@ export default class Index extends React.Component{
     }
     //获取租房小组数据 
     async getGroupdata(){
+        const {value} = JSON.parse(localStorage.getItem('hudi_rent'))
+        // console.log('wwwww',value,'111',value.split('|'),'@@@@',(value.split('|')).join('%'))
         const res = await axios.get('http://localhost:8080/home/groups',{
             params:{
-                area:'AREA%7C88cff55c-aaa4-e2e0'
+                // area:'AREA%7C88cff55c-aaa4-e2e0'
+                area:(value.split('|')).join('%')
             }
         })
         // console.log('获取的租房信息',res.data.body)
