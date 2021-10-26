@@ -144,7 +144,7 @@ export default class HouseDetail extends React.Component{
     }
 
     // 实际的页面渲染
-    rener(){
+    render(){
         const {isLoading} = this.state
         return (
             <div className={styles.root}>

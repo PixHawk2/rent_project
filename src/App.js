@@ -3,6 +3,7 @@ import {BrowserRouter as Router,Route,Link,Redirect} from 'react-router-dom'
 // 导入组件
 import Home from './pages/Home'
 import Citylist from './pages/Citylist';
+import HouseDetail from './pages/HouseDetail';
 import Map from './pages/Map';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route path='/citylist' component={Citylist}></Route>
                 <Route exact path='/' render={()=><Redirect to = '/home'/>}/>
                 <Route path='/map' component={Map}></Route>
+                <Route path="/detail" component={HouseDetail} />
             </div>
         </Router>
     );
