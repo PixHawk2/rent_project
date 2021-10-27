@@ -74,6 +74,7 @@ export default class Houselist extends React.Component{
         // 获取到的房屋数据在state中
         const {list} = this.state
         const houselist = list[index]
+        // console.log(houselist)
         if(!houselist){
             // return Toast.loading('数据加载中',0,null,true)
             return (
@@ -91,6 +92,7 @@ export default class Houselist extends React.Component{
                 desc={houselist.desc}
                 tags={houselist.tags}
                 price={houselist.price}
+                onClick={()=>{this.props.history.push(`/detail/${houselist.houseCode}`)}}
             ></HouseItem>
         )
     }

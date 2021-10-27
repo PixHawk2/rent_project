@@ -10,13 +10,16 @@ import { BASE_URL } from "../../utils/url"
 import styles from './index.module.css'
 import { getByDisplayValue } from "@testing-library/dom"
 import { style } from "dom-helpers"
+import { API } from "../../utils/api"
+import { Item } from "antd-mobile/lib/tab-bar"
 
 // 猜你喜欢部分的数据
 const recommendHouses = [
     {
         id:1,
-        src:BASE_URL+'./img/message/1.png',
+        src:BASE_URL + '/img/message/1.png',
         desc:'72.32㎡/南 北/低楼层',
+        title: '胡迪园 2室1厅',
         price:4500,
         tags:['随时看房']
     },
@@ -59,7 +62,7 @@ export default class HouseDetail extends React.Component{
         // 解决轮播图故障
         isLoading:false,
         houseInfo:{
-            slides: [],
+            houseImg: [],
             // 标题
             title: '',
             // 标签
@@ -73,7 +76,7 @@ export default class HouseDetail extends React.Component{
             // 装修类型
             renovation: '精装',
             // 朝向
-            oriented: [],
+            oriented: [], 
             // 楼层
             floor: '',
             // 小区名称
@@ -92,34 +95,28 @@ export default class HouseDetail extends React.Component{
         }
     }
     componentDidMount(){
-        this.renderMap('胡迪窝棚',{
-            latitude: '31.219228',
-            longitude:'121.391768'
-        })
+        // 通过this.props.match.params获取到路由参数
+        // console.log('获取的路由参数：',this.props.match.params)
+        this.getHouseDetail()
+        
     }
     // 渲染轮播图
     renderSwipers(){
-        const {houseInfo:{slides}} = this.state
-        return slides.map(item=>{
+        const {houseInfo:{houseImg}} = this.state
+        // console.log('++++++',houseImg)
+        return houseImg.map(item=>(
             <a 
-                key={item.id}
-                href = "http://itcast.cn"
-                style = {
-                    {
-                        display:"inline-block",
-                        width:'100%',
-                        height:252
-                    }
-                }
+                key={item}
+                href = "http://itcast.cn"  
             >
                 <img 
-                    src={BASE_URL+item.imgSrc} 
+                    src={BASE_URL+item} 
                     alt = ''
-                    style = {{width:'100%',verticalAlign:'top'}}
-                    />
+                />
             </a>
-        })
+        ))
     }
+    
     // 渲染地图
     renderMap(community,coord){
         // 地图显示的初始化，详情可以参考百度地图API
@@ -142,24 +139,57 @@ export default class HouseDetail extends React.Component{
          `)
         map.addOverlay(label)
     }
+    // 获取具体的房屋数据
+    async getHouseDetail(){
+        
+        const {id } = this.props.match.params
+        this.setState({
+            isLoading:true
+        })
+        // console.log(id)
+        const res = await API.get(`/houses/${id}`)
+        const {community,coord} = res.data.body
+        // console.log(res)
+        this.setState({
+            houseInfo:res.data.body,
+            isLoading:false
+        })
+        this.renderMap(community,coord)
+    }
+    // 标签渲染
+    renderTags(){
+        const {tags} = this.state.houseInfo
+        return tags.map((item,index)=>{
+            let tagClass =''
+            if(index >2){
+                tagClass = 'tag3'
+            }else{
+                tagClass = 'tag'+(index+1)
+            }
 
+            return (
+                <span className={[styles.tag,styles[tagClass]].join(' ')} key={item}>
+                    {item}
+                </span>
+            )
+        })
+    }
     // 实际的页面渲染
     render(){
-        const {isLoading} = this.state
+        const {isLoading,houseInfo:{community,title,tags,price,roomType,size,floor,oriented,description,supporting}} = this.state
         return (
             <div className={styles.root}>
                 {/* 导航栏 */}
                 <NavHeader
                     className={styles.navHeader}
                     rightContent={[<i key="share" className="iconfont icon-share"/>]}
-                >
-                    胡迪动员
+                >{community}
                 </NavHeader>
                 {/* 轮播图 */}
                 <div className={styles.slides}>
                     {
                         !isLoading ? (
-                            <Carousel autoplay infinite autoplayInterval={3000}>{this.renderSwipers}</Carousel>
+                            <Carousel autoplay infinite autoplayInterval={3000}>{this.renderSwipers()}</Carousel>
                         ) :(
                             ''
                         )
@@ -168,28 +198,28 @@ export default class HouseDetail extends React.Component{
 
                 {/* 房屋基础信息 */}
                 <div className={styles.info}>
-                    <h3 className={styles.infoTitle}> 整租 · 精装修，拎包入住，配套齐Q，价格优惠</h3>
+                    <h3 className={styles.infoTitle}>{title}</h3>
                     <Flex className={styles.tags}>
                         <Flex.Item>
-                            <span className={[styles.tag,styles.tag1].join(' ')}>
-                                随时看房
-                            </span>
+                            {
+                                this.renderTags()
+                            }
                         </Flex.Item>
                     </Flex>
                     <Flex className={styles.infoPrice}>
                         <Flex.Item className={styles.infoPriceItem}>
                             <div>
-                                8500
+                                {price}元
                                 <span className={styles.month}>/月</span>
                             </div>
                             <div>租金</div>
                         </Flex.Item>
                         <Flex.Item className={styles.infoPriceItem}>
-                            <div>1室1厅1卫</div>
+                            <div>{roomType}</div>
                             <div>房型</div>
                         </Flex.Item>
                         <Flex.Item className={styles.infoPriceItem}>
-                            <div>78平方米</div>
+                            <div>{size}平米</div>
                             <div>面积</div>
                         </Flex.Item>
                     </Flex>
@@ -200,12 +230,12 @@ export default class HouseDetail extends React.Component{
                                 <span className={styles.title}>装修：</span>精装
                             </div>
                             <div className={styles.title}>
-                                <span className={styles.title}>楼层：</span>低楼层
+                                <span className={styles.title}>楼层：</span>{floor}
                             </div>
                         </Flex.Item>
                         <Flex.Item>
                             <div >
-                                <span className={styles.title}>朝向：</span>南
+                                <span className={styles.title}>朝向：</span>{oriented.join('、')}
                             </div>
                             <div className={styles.title}>
                                 <span className={styles.title}>类型：</span>普通住宅
@@ -218,7 +248,7 @@ export default class HouseDetail extends React.Component{
                 <div className={styles.map}>
                     <div className={styles.mapTitle}>
                         小区：
-                        <span>胡迪乐园</span>
+                        <span>{community}</span>
                     </div>
                     {/* 地图容器 */}
                     <div className={styles.mapContainer} id="map">地图</div>
@@ -226,16 +256,11 @@ export default class HouseDetail extends React.Component{
                 {/* 房屋配套 */}
                 <div className={styles.about}>
                     <div className={styles.houseTitle}>房屋配套</div>
-                    <HousePackage list={[
-                        '电视',
-                        '冰箱',
-                        '洗衣机',
-                        '空调',
-                        '热水器',
-                        '沙发',
-                        '衣柜',
-                        '天然气'
-                    ]} />
+                    {
+                        supporting.length === 0
+                        ?<div className={styles.titleEmpty}>暂无数据</div>
+                        :<HousePackage list={supporting} />
+                    }
                 </div>
 
                 {/* 房屋概况 */}
@@ -244,7 +269,7 @@ export default class HouseDetail extends React.Component{
                     <div>
                         <div className={styles.contact}>
                             <div className={styles.user}>
-                                <img src={BASE_URL+'./img/avatar.png'} alt='头像' />
+                                <img src={BASE_URL + '/img/avatar.png'} alt='头像' />
                                 <div className={styles.useInfo}>
                                     <div>胡迪小朋友</div>
                                     <div className={styles.userAuth}>
@@ -252,13 +277,10 @@ export default class HouseDetail extends React.Component{
                                     </div>
                                 </div>
                             </div>
-                            <span className={styles.userMag}>发消息</span>
+                            <span className={styles.userMsg}>发消息</span>
                         </div>
                         <div className={styles.descText}>
-                            1.周边配套齐全，地铁四号线陶然亭站，交通便利，公交云集，距离北京南站、西站都很近距离。
-                            2.小区规模大，配套全年，幼儿园，体育场，游泳馆，养老院，小学。
-                            3.人车分流，环境优美。
-                            4.精装两居室，居家生活方便，还有一个小书房，看房随时联系。
+                            {description ||'暂无房源描述'}
                         </div>
                     </div>
                 </div>
@@ -278,7 +300,7 @@ export default class HouseDetail extends React.Component{
                 {/* 底部收藏 */}
                 <Flex className={styles.fixedBottom}>
                     <Flex.Item>
-                        <img src={BASE_URL+'./img/unstar.png'}
+                        <img src={BASE_URL+'/img/unstar.png'}
                             className={styles.favoriteImg}
                             alt='收藏'
                         />

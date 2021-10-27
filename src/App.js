@@ -19,7 +19,7 @@ function App() {
                 <Route path='/citylist' component={Citylist}></Route>
                 <Route exact path='/' render={()=><Redirect to = '/home'/>}/>
                 <Route path='/map' component={Map}></Route>
-                <Route path="/detail" component={HouseDetail} />
+                <Route path="/detail/:id" component={HouseDetail} />
             </div>
         </Router>
     );

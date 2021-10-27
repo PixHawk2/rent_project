@@ -1,5 +1,5 @@
 import React from "react"
-import HouseItem from "../HouseItem"
+// import HouseItem from "../HouseItem"
 import styles from './index.module.css'
 
 // 常量使用大写字母来命名,该常量用来表示房屋配置信息中的名称以及图标信息
@@ -65,7 +65,7 @@ export default class HousePackage extends React.Component{
     toggleSelect = name => {
         const {selectedNames} = this.state
         let newSelectedName
-        // 判断该项是否被选中,，如果选中，就从数组中先筛选出来,filter返回的是一个新的列表
+        // 判断该项是否被选中,如果选中，就从数组中先筛选出来,filter返回的是一个新的列表
         if (selectedNames.indexOf(name) >-1){
             newSelectedName = selectedNames.filter(item=>item !==name)
         }else{
@@ -96,12 +96,13 @@ export default class HousePackage extends React.Component{
             const isSelected = selectedNames.indexOf(item.name)>-1
             return (
                 <li key={item.id}
-                    className={[styles.item,isSelected?styles.active:''].join(' ')}
-                    onClick={select &&(()=>{this.toggleSelect(item.name)})}
+                    className={[styles.item,isSelected ? styles.active:''].join(' ')}
+                    onClick={select &&(()=>this.toggleSelect(item.name))}
                 >
                     <p>
-                      <i className={`iconfont ${item.icon} ${styles.icon}`}/>  
+                      <i className={`iconfont ${item.icon} ${styles.icon}`}/>
                     </p>
+                    {item.name}
                 </li>
             )
         })

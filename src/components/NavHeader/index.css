@@ -1,8 +1,9 @@
-.navBar {
+.navHeaderBar {
+  width: 100%;
   color: #333;
   background-color: #f6f5f6;
 }
 
-.navBar .am-navbar-title {
+.navHeaderBar .am-navbar-title {
   color: #000;
 }

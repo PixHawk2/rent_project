@@ -3,11 +3,12 @@ import {withRouter} from 'react-router-dom'
 import react from 'react'
 import './index.scss'
 import PropTypes  from 'prop-types'
+import styles from './index.module.css'
 function NavHeader({children,history,onLeftClick,className,rightContent}){
-    const defaultClickHander = () => history.push('/home')
+    const defaultClickHander = () => history.go(-1)
     return(
     <NavBar
-        className={['navBar',className ||''].join(' ')}
+        className={["navHeaderBar",className||''].join(' ')}
         mode="light"
         icon={<i className='iconfont icon-back' />}
         onLeftClick={onLeftClick||defaultClickHander}

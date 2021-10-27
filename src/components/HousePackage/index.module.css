@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     text-align: center;
     background-color: #fff;
+    padding: 0px 10px
 }
 .item{
     margin:10px 0;
