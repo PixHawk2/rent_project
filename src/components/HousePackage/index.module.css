@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     text-align: center;
-    background-color: #fff;
+    background: #fff;
     padding: 0px 10px
 }
 .item{
