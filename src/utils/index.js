@@ -22,3 +22,6 @@ export const getCurrentLocation = () =>{
     }
     return Promise.resolve(localinfo);
 }
+export {API} from './api'
+export {BASE_URL} from './url'
+export * from './auth'
