@@ -1,3 +1,16 @@
+.map{
+  height: 100%;
+  padding-top: 45px;
+}
+.container {
+  height: 100%;
+}
+
+/* map 和 global 之间一定要有空格 */
+.map :global(.am-navbar){
+  margin-top: -45px;
+}
+
 /* 覆盖物样式： */
 .bubble {
     width: 70px;

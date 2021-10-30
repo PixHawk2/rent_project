@@ -6,6 +6,7 @@ import Citylist from './pages/Citylist';
 import HouseDetail from './pages/HouseDetail';
 import Map from './pages/Map';
 import Login from './pages/Login';
+import AuthRoute from './components/AuthRoute';
 
 function App() {
     return (
@@ -19,7 +20,7 @@ function App() {
                 <Route path='/home' component={Home}></Route>
                 <Route path='/citylist' component={Citylist}></Route>
                 <Route exact path='/' render={()=><Redirect to = '/home'/>}/>
-                <Route path='/map' component={Map}></Route>
+                <AuthRoute path='/map' component={Map}></AuthRoute>
                 <Route path="/detail/:id" component={HouseDetail} />
                 <Route path="/login" component={Login} />
             </div>

@@ -139,7 +139,14 @@ Login = withFormik(
             if(status === 200){
                 localStorage.setItem('hudi_token',body.token)
                 // this.props.history.push('/home')
-                props.history.go(-1)
+                // props.history.go(-1)
+                // console.log('*******',props)
+                if(!props.location.state){
+                    props.history.go(-1)
+                }else{
+                    // 此处使用replace而不适用push是为了解决登录成功之后点击地图返回到登录界面
+                    props.history.replace(props.location.state.from.pathname)
+                }
             }else{
                 Toast.info(description,2,null,false)
             }

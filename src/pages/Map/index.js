@@ -251,9 +251,9 @@ export default class Map extends React.Component{
     // {[styles.houseList,this.setState.listShow?styles.show:''].join(' ')}可以根据this.state.listShow决定数据是否展示
     render(){
         return (
-            <div className='map'>
-                <NavHeader className='NavHeader' >地图找房</NavHeader>
-                <div id='container'></div>
+            <div className={styles.map}>
+                <NavHeader >地图找房</NavHeader>
+                <div id='container' className={styles.container}></div>
                 <div className={[styles.houseList,this.state.listShow ? styles.show :''].join(' ')}>
                    {/* 标题实现 */}
                    <div className={styles.titleWrap}>

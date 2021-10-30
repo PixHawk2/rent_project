@@ -1,5 +1,5 @@
 import React from "react"
-import { Carousel,Flex } from "antd-mobile" 
+import { Carousel,Flex,Modal } from "antd-mobile" 
 
 import NavHeader from "../../components/NavHeader"
 import HouseItem from "../../components/HouseItem"
@@ -12,6 +12,7 @@ import { getByDisplayValue } from "@testing-library/dom"
 import { style } from "dom-helpers"
 import { API } from "../../utils/api"
 import { Item } from "antd-mobile/lib/tab-bar"
+import { isAuth } from "../../utils"
 
 // 猜你喜欢部分的数据
 const recommendHouses = [
@@ -57,6 +58,7 @@ const labelStyle = {
     fontSize: 12,
     userSelect: 'none'
 }
+const alert = Modal.alert
 export default class HouseDetail extends React.Component{
     state = {
         // 解决轮播图故障
@@ -92,12 +94,14 @@ export default class HouseDetail extends React.Component{
             houseCode: '',
             // 房屋描述
             description: ''
-        }
+        },
+        isFavorite:false
     }
     componentDidMount(){
         // 通过this.props.match.params获取到路由参数
         // console.log('获取的路由参数：',this.props.match.params)
         this.getHouseDetail()
+        this.checkFavorite()
         
     }
     // 渲染轮播图
@@ -174,9 +178,45 @@ export default class HouseDetail extends React.Component{
             )
         })
     }
+    // 进入页面时判断房源是否收藏
+    async checkFavorite(){
+        const isLogin = isAuth()
+        // 获取房屋id
+        const {id } = this.props.match.params
+        if(!isLogin){
+            return
+        }else{
+            console.log(id)
+            const res = await API.get(`/user/favorites/${id}`)
+            // console.log('+++++',res)
+            const {status,body} =res.data
+            if(status === 200){
+                this.setState({
+                    isFavorite:body.isFavorite
+                })
+            }
+        }
+    }
+    // 收藏功能实现
+    handleFavorite = ()=>{
+        const isLogin = isAuth()
+        const {history,location} = this.props
+        if(!isLogin){
+            // 未登录状态
+            return alert('提示', '登录后才可收藏房源，是否去登录?', [
+                { text: '取消' },
+                { text: '登录', onPress: () => {
+                    history.push('/login',{
+                        from:location
+                    })
+                } }
+            ])
+        }
+ 
+    }
     // 实际的页面渲染
     render(){
-        const {isLoading,houseInfo:{community,title,tags,price,roomType,size,floor,oriented,description,supporting}} = this.state
+        const {isLoading,houseInfo:{community,title,tags,price,roomType,size,floor,oriented,description,supporting},isFavorite} = this.state
         return (
             <div className={styles.root}>
                 {/* 导航栏 */}
@@ -298,13 +338,13 @@ export default class HouseDetail extends React.Component{
                     </div>
                 </div>
                 {/* 底部收藏 */}
-                <Flex className={styles.fixedBottom}>
+                <Flex className={styles.fixedBottom} onClick={this.handleFavorite}>
                     <Flex.Item>
-                        <img src={BASE_URL+'/img/unstar.png'}
+                        <img src={BASE_URL+(isFavorite?'/img/star.png':'/img/unstar.png')}
                             className={styles.favoriteImg}
                             alt='收藏'
                         />
-                        <span className={styles.favorite}>收藏</span>
+                        <span className={styles.favorite}>{isFavorite?'已收藏':'收藏'}</span>
                     </Flex.Item>
                     <Flex.Item>
                         在线咨询

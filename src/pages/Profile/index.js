@@ -40,9 +40,9 @@ export default class Profile extends Component {
             return
         }
         const res = await API.get('/user',{
-            headers:{
-                authorization:getToken()
-            }
+            // headers:{
+            //     authorization:getToken()
+            // }
         })
         // 一定要注意对象嵌套，在数据结构的过程中
         console.log('获取用户信息返回',res)
@@ -53,6 +53,11 @@ export default class Profile extends Component {
                     avatar:BASE_URL+avatar,
                     nickname
                 } 
+            })
+        }else{
+            // token unavailable
+            this.setState({
+                isLogin:false
             })
         }
     }
