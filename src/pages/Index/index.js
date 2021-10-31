@@ -28,14 +28,14 @@ const navdata = [
     {
         id:3,
         img: NAV3,
-        path:'/home/citylist',
+        path:'/map',
         title:'地图找房'
     },
     {
         id:4,
         img: NAV4,
-        path:'/home/news',
-        title:'资讯'
+        path:'/rent/add',
+        title:'去出租'
     }
 ]
 // 使用H5的定位接口

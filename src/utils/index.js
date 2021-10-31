@@ -24,4 +24,5 @@ export const getCurrentLocation = () =>{
 }
 export {API} from './api'
 export {BASE_URL} from './url'
+export {getCity,setCity} from './city'
 export * from './auth'
