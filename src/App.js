@@ -6,6 +6,7 @@ import Citylist from './pages/Citylist';
 import HouseDetail from './pages/HouseDetail';
 import Map from './pages/Map';
 import Login from './pages/Login';
+import Register from './pages/Register'
 import AuthRoute from './components/AuthRoute';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <AuthRoute path='/map' component={Map}></AuthRoute>
                 <Route path="/detail/:id" component={HouseDetail} />
                 <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
             </div>
         </Router>
     );

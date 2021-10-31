@@ -17,7 +17,8 @@ const NoHouse = ({children})=>{
    
 // 增加组件数据校验
 NoHouse.propTypes ={
-    children:PropTypes.string.isRequired
+    children:PropTypes.node.isRequired
+    // 此处原先为string，后面修改为node，即可以为任意可以渲染的内容
 }
 
 export default NoHouse

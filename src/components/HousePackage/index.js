@@ -57,7 +57,7 @@ const HOUSE_PACKAGE =[
 ]
 
 
-export default class HousePackage extends React.Component{
+class HousePackage extends React.Component{
     state = {
         selectedNames:[]
     }
@@ -113,3 +113,10 @@ export default class HousePackage extends React.Component{
         )
     }
 }
+
+// 添加组件的属性默认值，防止在使用该组件时，不传onSelect导致报错
+HousePackage.defaultProps = {
+    onSelect:()=>{}
+}
+
+export default HousePackage
