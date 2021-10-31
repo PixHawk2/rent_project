@@ -1,5 +1,5 @@
 import React from "react"
-import { Carousel,Flex,Modal } from "antd-mobile" 
+import { Carousel,Flex,Modal,Toast } from "antd-mobile" 
 
 import NavHeader from "../../components/NavHeader"
 import HouseItem from "../../components/HouseItem"
@@ -198,7 +198,7 @@ export default class HouseDetail extends React.Component{
         }
     }
     // 收藏功能实现
-    handleFavorite = ()=>{
+    handleFavorite = async () =>{
         const isLogin = isAuth()
         const {history,location} = this.props
         if(!isLogin){
@@ -211,6 +211,33 @@ export default class HouseDetail extends React.Component{
                     })
                 } }
             ])
+        }
+        // console.log('!!!?????')
+        const {isFavorite} = this.state
+        const {id } = this.props.match.params
+        if(isFavorite){
+            // 如果原先是收藏状态，取消收藏,调用接口
+            const res = await API.delete(`/user/favorites/${id}`)
+            this.setState({
+                isFavorite:false
+            })
+            // console.log('原先处于收藏',res)
+            const {status} = res.data
+            if(status === 200){
+                Toast.info('已取消收藏',2,null,false)
+            }else{
+                Toast.info('登录过期，请重新登录',2,null,false)
+            }
+        }else{
+            //原先处于未收藏状态
+            const res  = await API.post(`/user/favorites/${id}`)
+            // console.log('原先处于未收藏',res)
+            if(res.data.status === 200){
+                this.setState({
+                    isFavorite:true
+                })
+                Toast.info('已收藏',1,null,false)
+            }  
         }
  
     }
