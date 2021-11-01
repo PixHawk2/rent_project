@@ -7,9 +7,9 @@ import {
   Picker,
   ImagePicker,
   TextareaItem,
-  Modal
+  Modal,Toast
 } from 'antd-mobile'
-
+import { API } from '../../../utils'
 import NavHeader from '../../../components/NavHeader'
 import HousePackge from '../../../components/HousePackage'
 
@@ -89,36 +89,83 @@ export default class RentAdd extends Component {
   // 取消编辑，返回上一页
   onCancel = () => {
     alert('提示', '放弃发布房源?', [
-      {
-        text: '放弃',
-        onPress: async () => this.props.history.go(-1)
-      },
-      {
-        text: '继续编辑'
-      }
-    ])
-  }
+        {
+            text: '放弃',
+            onPress: async () => this.props.history.go(-1)
+        },
+        {
+            text: '继续编辑'
+        }
+        ])
+    }
 //   获取各项输入信息
-  getValue = (name,value) =>{
+    getValue = (name,value) =>{
       this.setState({
           [name]:value
       })
-  }
-  render() {
-    const Item = List.Item
-    const { history } = this.props
-    const {
-      community,
-      price,
-      roomType,
-      floor,
-      oriented,
-      description,
-      tempSlides,
-      title,
-      size,
-    } = this.state
+    }
+//   获得房屋配置信息
+    handleSupporting = (sel)=>{
+    // console.log(sel)
+        this.setState({
+            supporting:sel.join('|')
+        })
+    }
 
+// 获取选择图片信息
+    handleImage = (files)=>{
+        // console.log('00000',files,type,index)
+        this.setState({
+            tempSlides:files
+        })
+    }
+    // 提交处理流程
+    addHouse =async () =>{
+        const {tempSlides,title,description,oriented,supporting,roomType,size,price,floor,community} = this.state
+        let houseImg = ''
+        if(tempSlides.length>0){
+            // 证明有选择图片
+            const form = new FormData()
+            tempSlides.forEach(item=>
+                form.append('file',item.file)
+            )
+            const res = await API.post('/houses/image',form,{
+                headers:{
+                    'Content-Type':'multipart/form-data'
+                }
+            })
+            // console.log('>>>>>>',res)
+            houseImg = res.data.body.join('|')
+        }
+        // console.log('<<<<<<<',houseImg)
+        //发布房源
+        const res = await API.post('/user/houses',{
+            title,description,oriented,supporting,roomType,size,price,floor,community:community.id,houseImg
+        })
+        // console.log('>>>>>>>>',res)
+        if(res.data.status == 200){
+            Toast.info('房源发布成功',1,null,false)
+            this.props.history.push('/rent')
+        }else{
+            Toast.info('服务器出故障啦~',2,null,false)
+        }
+    }
+    render() {
+        const Item = List.Item
+        const { history } = this.props
+        const {
+        community,
+        price,
+        roomType,
+        floor,
+        oriented,
+        description,
+        tempSlides,
+        title,
+        size,
+        } = this.state
+    // 
+   
     return (
       <div className={styles.root}>
         <NavHeader onLeftClick={this.onCancel}>发布房源</NavHeader>
@@ -179,6 +226,7 @@ export default class RentAdd extends Component {
             files={tempSlides}
             multiple={true}
             className={styles.imgpicker}
+            onChange={this.handleImage}
           />
         </List>
 
@@ -187,7 +235,7 @@ export default class RentAdd extends Component {
           renderHeader={() => '房屋配置'}
           data-role="rent-list"
         >
-          <HousePackge select />
+          <HousePackge select onSelect={this.handleSupporting}/>
         </List>
 
         <List
