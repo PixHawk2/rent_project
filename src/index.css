@@ -39,3 +39,7 @@ body{
 .body-fixed{
   overflow: hidden;
 }
+.route-loading{
+  padding-top: 100px ;
+  text-align: center;
+}

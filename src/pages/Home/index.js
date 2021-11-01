@@ -1,12 +1,15 @@
-import React from 'react'
+import React,{lazy} from 'react'
 import { Route } from 'react-router'
 // 为了防止后续影响Houselist中的样式
 import './index.css'
-import News from '../News'
-import Houselist from '../Houselist'
 import Index from '../Index'
-import Profile from '../Profile'
 import {TabBar} from 'antd-mobile'
+/*import News from '../News'
+import Houselist from '../Houselist'
+import Profile from '../Profile'*/
+const News = lazy(()=>import('../News'))
+const Houselist = lazy(()=>import('../Houselist'))
+const Profile = lazy(()=>import('../Profile'))
 
 // import Item from 'antd-mobile/lib/popover/Item'
 
