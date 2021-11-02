@@ -25,7 +25,7 @@ function Searchheader({history,cityName,className}){
                  <i className='iconfont icon-map'
                     onClick={()=>{history.push('/map')}}
             />
-            </Flex> 
+        </Flex> 
     )
 }
 Searchheader.propTypes = {

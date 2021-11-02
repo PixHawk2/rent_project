@@ -21,10 +21,8 @@ const AuthRoute = ({component:Component,...rest})=>{
                             from: props.location
                         }
                     }
-
                 }
             />
-
         }
     }}>
     </Route>

@@ -89,18 +89,18 @@ export default class Home extends React.Component{
                 <Route exact path='/home' component={Index}/>
                 <Route path='/home/profile' component={Profile}/>
                 <Route path='/home/houselist' component={Houselist}/>
-            <div>
-            <TabBar
-            //   unselectedTintColor="#949494" 未选中颜色
-            tintColor="#21b97a"
-            barTintColor="white"
-            //   hidden={this.state.hidden}
-            noRenderContent={true}
-            >
-            {this.renerTabbaritem()}
-            </TabBar>
-            </div>
-        </div>       
+                <div>
+                    <TabBar
+                    //   unselectedTintColor="#949494" 未选中颜色
+                    tintColor="#21b97a"
+                    barTintColor="white"
+                    //   hidden={this.state.hidden}
+                    noRenderContent={true}
+                    >
+                    {this.renerTabbaritem()}
+                    </TabBar>
+                </div>
+            </div>       
         )
     }
 }

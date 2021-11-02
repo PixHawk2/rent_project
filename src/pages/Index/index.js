@@ -54,7 +54,7 @@ export default class Index extends React.Component{
         localcity:''
         // imgHeight: 176,
     }
-    // 获取导航栏数据
+    // 获取轮播图数据
     async getswipdata(){
         const res = await axios.get('http://localhost:8080/home/swiper');
         // console.log(res.data.body);
@@ -91,6 +91,7 @@ export default class Index extends React.Component{
         })
 
     }
+    // 原先参考百度地图文档获取当前定位信息的方式
     // getCurrentCity(){
     //     const myCity = new window.BMap.LocalCity();
     //     myCity.get(async res=>{
