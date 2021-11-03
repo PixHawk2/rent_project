@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import { NavBar ,Icon, Toast} from "antd-mobile"
 import './index.scss'
 import axios from "axios"
